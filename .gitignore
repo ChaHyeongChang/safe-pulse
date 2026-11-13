@@ -1,0 +1,20 @@
+# Gradle / Android Studio
+.gradle/
+build/
+local.properties
+.idea/
+*.iml
+captures/
+.cxx/
+.externalNativeBuild/
+
+# 서명 정보는 절대 올리지 않는다
+keystore.properties
+*.jks
+*.keystore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 제출용 APK(apk/*.apk)는 의도적으로 커밋한다.

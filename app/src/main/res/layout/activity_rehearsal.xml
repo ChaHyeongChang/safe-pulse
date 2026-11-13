@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical"
+    android:padding="32dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rehearsal_title"
+        android:textColor="@color/text"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/rehearsal_intro"
+        android:textColor="@color/text_dim"
+        android:textSize="22sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/rehearsalStep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/warn"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/rehearsalInstruction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textColor="@color/text"
+            android:textSize="56sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/rehearsalSignals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/text_dim"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/rehearsalResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_panel"
+            android:gravity="center"
+            android:lineSpacingExtra="6dp"
+            android:padding="24dp"
+            android:textColor="@color/text"
+            android:textSize="26sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button android:id="@+id/rehearsalStart" style="@style/SpButton" android:background="@drawable/bg_ok" android:text="@string/btn_rehearsal_start" />
+        <Button android:id="@+id/rehearsalNext" style="@style/SpButton" android:text="@string/btn_rehearsal_next" />
+        <Button android:id="@+id/rehearsalStop" style="@style/SpButton" android:text="@string/btn_rehearsal_stop" />
+    </LinearLayout>
+</LinearLayout>

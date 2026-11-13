@@ -1,0 +1,22 @@
+name: core-tests
+
+# 판별·코칭 엔진(core) 단위 테스트와 데모 시나리오 7종 + 리허설 검증을 push마다 실행한다.
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      SAFEPULSE_CORE_ONLY: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Run core tests
+        run: |
+          chmod +x gradlew
+          ./gradlew :core:test --no-daemon

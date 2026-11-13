@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 원 안의 심박 파형: 세이프 펄스 아이콘 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#FF0E1216" android:pathData="M54,4a50,50 0,1 1,0 100a50,50 0,1 1,0 -100z" />
+    <path android:fillColor="#00000000" android:strokeColor="#FFE53935" android:strokeWidth="6"
+        android:pathData="M54,8a46,46 0,1 1,0 92a46,46 0,1 1,0 -92z" />
+    <path android:fillColor="#00000000" android:strokeColor="#FFF5F7FA" android:strokeWidth="6"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M22,58 L40,58 L47,40 L57,74 L65,50 L71,58 L86,58" />
+</vector>

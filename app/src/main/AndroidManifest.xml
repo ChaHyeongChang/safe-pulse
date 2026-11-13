@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-feature
+        android:name="android.hardware.type.automotive"
+        android:required="true" />
+
+    <!-- AAOS 표준 차량 속성(읽기 전용). CAR_SPEED는 런타임 권한이다. -->
+    <uses-permission android:name="android.car.permission.CAR_SPEED" />
+    <uses-permission android:name="android.car.permission.CAR_POWERTRAIN" />
+    <uses-permission android:name="android.car.permission.READ_ADAS_STATES" />
+
+    <!-- Pleos Vehicle SDK 읽기 권한만 선언한다(차량 제어 권한은 쓰지 않음). -->
+    <uses-permission android:name="pleos.car.permission.CAR_DRIVE" />
+    <uses-permission android:name="pleos.car.permission.CAR_LIGHTS" />
+    <uses-permission android:name="pleos.car.permission.CAR_SAFETY" />
+    <uses-permission android:name="pleos.car.permission.CAR_SPEED" />
+    <uses-permission android:name="pleos.car.permission.CAR_POWERTRAIN" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+
+    <!-- Android 11+ 패키지 가시성: 선언하지 않으면 TTS 엔진을 찾지 못해 TextToSpeech 초기화가 실패한다(-1). -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
+
+    <application
+        android:name=".SafePulseApp"
+        android:allowBackup="false"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SafePulse">
+
+        <uses-library
+            android:name="android.car"
+            android:required="false" />
+
+        <!-- 주행 중에도 쓰는 유일한 화면. 운전자 주의 분산 최적화(Distraction Optimized) 선언. -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask">
+            <meta-data
+                android:name="distractionOptimized"
+                android:value="true" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 아래 화면은 DO를 선언하지 않는다: 플랫폼이 주행 중 실행을 막아 정차 중에만 열린다. -->
+        <activity
+            android:name=".RehearsalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EventLogActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+
+        <service
+            android:name=".SafePulseService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Continuous monitoring of vehicle signals to coach the driver during unintended acceleration" />
+        </service>
+
+        <!-- 웨어러블 입력 경로. 실서비스에서는 폰 브릿지 앱이, 데모에서는 adb broadcast가 보낸다. -->
+        <receiver
+            android:name=".WearableInputReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.safepulse.app.WEARABLE_SAMPLE" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg">
+
+    <!-- ===== 홈 ===== -->
+    <LinearLayout
+        android:id="@+id/home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="32dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/appTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textColor="@color/text"
+                android:textSize="36sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tagline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_weight="1"
+                android:text="@string/tagline"
+                android:textColor="@color/text_dim"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/modeBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_button"
+                android:paddingStart="20dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="8dp"
+                android:textColor="@color/text"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <!-- 차량·워치 상태 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_panel"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="24dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.4"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/speedValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/text"
+                    android:textSize="72sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/SpLabel"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="14dp"
+                    android:text="@string/label_speed_unit" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView style="@style/SpLabel" android:text="기어" />
+                <TextView android:id="@+id/gearValue" style="@style/SpValue" android:text="-" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView style="@style/SpLabel" android:text="브레이크" />
+                <TextView android:id="@+id/brakeValue" style="@style/SpValue" android:text="-" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView style="@style/SpLabel" android:text="주차 브레이크" />
+                <TextView android:id="@+id/epbValue" style="@style/SpValue" android:text="-" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:orientation="vertical">
+                <TextView style="@style/SpLabel" android:text="워치" />
+                <TextView android:id="@+id/watchValue" style="@style/SpValue" android:text="-" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView style="@style/SpLabel" android:text="상태" />
+                <TextView android:id="@+id/levelValue" style="@style/SpValue" android:text="감시" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/statusDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/text_dim"
+            android:textSize="18sp" />
+
+        <!-- 비상 버튼(수동 비상 모드) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/emergencyButton"
+                android:layout_width="260dp"
+                android:layout_height="260dp"
+                android:background="@drawable/bg_emergency"
+                android:text="@string/btn_emergency"
+                android:textColor="@color/text"
+                android:textSize="56sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/btn_emergency_hint"
+                android:textColor="@color/text_dim"
+                android:textSize="22sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button android:id="@+id/rehearsalButton" style="@style/SpButton" android:text="@string/btn_rehearsal" />
+            <Button android:id="@+id/logsButton" style="@style/SpButton" android:text="@string/btn_logs" />
+            <Button android:id="@+id/demoButton" style="@style/SpButton" android:text="@string/btn_demo" />
+            <Button android:id="@+id/settingsButton" style="@style/SpButton" android:text="@string/btn_settings" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/rehearsalSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textColor="@color/text_dim"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <!-- ===== 긴급 코칭(정적 단일 화면: 아이콘 1개 + 한 줄 + 버튼 2개) ===== -->
+    <LinearLayout
+        android:id="@+id/coachOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="32dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/coachStepIndex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/warn"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/coachIcon"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_step_icon"
+            android:gravity="center"
+            android:textColor="@color/text"
+            android:textSize="56sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/coachText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:textColor="@color/text"
+            android:textSize="60sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/coachDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/text_dim"
+            android:textSize="22sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:orientation="horizontal">
+            <Button android:id="@+id/coachCancel" style="@style/SpButton" android:layout_height="110dp" android:text="@string/btn_cancel_ok" android:textSize="32sp" />
+            <Button android:id="@+id/coachCall119" style="@style/SpButton" android:layout_height="110dp" android:background="@drawable/bg_call" android:text="@string/btn_call_119" android:textSize="40sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ===== 정차 후: 안부 확인·사고 후 가이드 ===== -->
+    <LinearLayout
+        android:id="@+id/postOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="32dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/post_title"
+            android:textColor="@color/ok"
+            android:textSize="52sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/postDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textColor="@color/text"
+            android:textSize="28sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:orientation="horizontal">
+            <Button android:id="@+id/postOk" style="@style/SpButton" android:layout_height="110dp" android:background="@drawable/bg_ok" android:text="@string/btn_cancel_ok" android:textSize="32sp" />
+            <Button android:id="@+id/post119" style="@style/SpButton" android:layout_height="110dp" android:background="@drawable/bg_call" android:text="@string/btn_call_119" android:textSize="36sp" />
+            <Button android:id="@+id/post112" style="@style/SpButton" android:layout_height="110dp" android:text="@string/btn_call_112" android:textSize="36sp" />
+            <Button android:id="@+id/postGuide" style="@style/SpButton" android:layout_height="110dp" android:text="@string/btn_accident_guide" android:textSize="26sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/postGuideText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_panel"
+            android:lineSpacingExtra="8dp"
+            android:padding="24dp"
+            android:text="@string/accident_guide_body"
+            android:textColor="@color/text"
+            android:textSize="24sp"
+            android:visibility="gone" />
+    </LinearLayout>
+</FrameLayout>

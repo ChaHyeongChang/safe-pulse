@@ -1,0 +1,11 @@
+# Windows에서 커밋해도 리눅스 CI·macOS에서 셸 스크립트가 그대로 돌도록 줄바꿈을 고정한다.
+* text=auto
+*.sh text eol=lf
+gradlew text eol=lf
+*.bat text eol=crlf
+*.apk binary
+*.jar binary
+*.png binary
+*.ogg binary
+*.mp3 binary
+*.wav binary

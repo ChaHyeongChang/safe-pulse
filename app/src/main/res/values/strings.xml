@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">세이프 펄스</string>
+    <string name="tagline">패닉의 순간, 지금 할 한 동작을 말해 주는 코치</string>
+
+    <string name="label_speed_unit">km/h</string>
+    <string name="btn_emergency">비상</string>
+    <string name="btn_emergency_hint">이상하게 가속되면 누르세요</string>
+    <string name="btn_rehearsal">골든타임 리허설</string>
+    <string name="btn_logs">이벤트 기록</string>
+    <string name="btn_demo">데모 시나리오</string>
+    <string name="btn_settings">설정</string>
+    <string name="btn_live">실시간 차량으로</string>
+
+    <string name="btn_cancel_ok">괜찮아요</string>
+    <string name="btn_call_119">119</string>
+    <string name="btn_call_112">112</string>
+    <string name="btn_accident_guide">사고 후 가이드</string>
+
+    <string name="post_title">안전하게 정차했습니다</string>
+    <string name="accident_guide_body">1. 부상·화재·추가 충돌 위험을 확인하고 안전한 곳으로 대피하세요.\n2. 다쳤거나 불이 나면 119, 사고 처리는 112에 연락하세요.\n3. 비상등을 켜고, 안전할 때만 안전삼각대를 설치하세요.\n4. 안전이 확보된 뒤 원하면 사고 기록을 저장합니다.</string>
+
+    <string name="parked_only">정차(P단) 중에만 열 수 있습니다.</string>
+    <string name="rehearsal_title">골든타임 리허설</string>
+    <string name="rehearsal_intro">P단에 정차한 상태에서 실제 위기 상황과 같은 안내를 듣고 직접 페달·기어·주차 브레이크를 조작합니다. 차량 신호로 동작을 확인하고 반응 시간을 기록합니다.</string>
+    <string name="btn_rehearsal_start">시작</string>
+    <string name="btn_rehearsal_next">신호 없음 · 다음</string>
+    <string name="btn_rehearsal_stop">그만</string>
+
+    <string name="logs_title">이벤트 기록</string>
+    <string name="logs_empty">아직 기록이 없습니다. 데모 시나리오를 재생하면 기록이 생깁니다.</string>
+
+    <string name="settings_title">설정</string>
+    <string name="settings_guardian_name">보호자 이름</string>
+    <string name="settings_guardian_phone">보호자 연락처</string>
+    <string name="settings_wearable">워치 생체 신호 사용(심박·손목 움직임)</string>
+    <string name="settings_elder">고령 모드(큰 글씨·느린 음성)</string>
+    <string name="settings_privacy">생체 신호는 판별 보조로만 쓰며 진단에 쓰지 않습니다. 평소에는 저장하지 않고, 위기 감지 전후 구간만 기록합니다.</string>
+    <string name="btn_save">저장</string>
+    <string name="btn_delete_logs">기록 모두 삭제</string>
+
+    <string name="notif_channel_status">감시 상태</string>
+    <string name="notif_channel_alert">긴급 안내</string>
+    <string name="notif_monitoring">차량 신호를 감시하고 있습니다</string>
+</resources>
