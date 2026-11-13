@@ -5,7 +5,26 @@
         <item name="android:colorBackground">@color/bg</item>
         <item name="android:textColor">@color/text</item>
         <item name="android:colorAccent">@color/info</item>
+        <item name="android:alertDialogTheme">@style/Theme.SafePulse.Dialog</item>
     </style>
+
+    <!-- 대화상자(데모 메뉴 등). Pleos 기본 대화상자는 밝은 배경이라 앱의 흰 글자가 묻혀 보이지 않았다. 앱과 같은 어두운 색으로 고정한다. -->
+    <style name="Theme.SafePulse.Dialog" parent="@android:style/Theme.Material.Dialog.Alert">
+        <item name="android:colorBackground">@color/panel</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textColorPrimary">@color/text</item>
+        <item name="android:textColorAlertDialogListItem">@color/text</item>
+        <item name="android:colorAccent">@color/info</item>
+        <!-- 차량 화면에서 읽기 쉽게 목록 글자를 키운다(기본 16sp는 작음). -->
+        <item name="android:textAppearanceListItemSmall">@style/SpDialogItemText</item>
+        <item name="android:listPreferredItemHeightSmall">64dp</item>
+    </style>
+
+    <style name="SpDialogItemText" parent="@android:style/TextAppearance.Material.Subhead">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/text</item>
+    </style>
+
 
     <style name="SpButton">
         <item name="android:layout_width">0dp</item>

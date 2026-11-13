@@ -41,7 +41,8 @@ public final class SafePulseController {
     private final EventLogStore logStore;
     private final Handler main = new Handler(Looper.getMainLooper());
     private final Handler engine;
-    private final SafePulseCore core;
+    /** 엔진 스레드에서만 읽고 바꾼다. 데모를 시작할 때 새로 만든다(startScenario 참고). */
+    private SafePulseCore core;
 
     private VoiceOutput voice;
     private CarSignalSource car;
@@ -77,7 +78,11 @@ public final class SafePulseController {
         HandlerThread thread = new HandlerThread("safepulse-engine");
         thread.start();
         this.engine = new Handler(thread.getLooper());
-        this.core = new SafePulseCore(new RiskConfig(), new CoreOutput());
+        this.core = newCore();
+    }
+
+    private SafePulseCore newCore() {
+        return new SafePulseCore(new RiskConfig(), new CoreOutput());
     }
 
     // ------------------------------------------------------------------ 수명 주기
@@ -90,7 +95,7 @@ public final class SafePulseController {
         car = new CarSignalSource(context, hub);
         car.start();
         pleos = new PleosVehicleBridge(context);
-        pleos.start(hub::setBrake);
+        pleos.start(hub::setBrake, hub::setCruise);
         engine.post(tick);
         Log.i(TAG, "controller started");
     }
@@ -99,7 +104,7 @@ public final class SafePulseController {
         if (!started) return;
         started = false;
         engine.removeCallbacks(tick);
-        engine.post(core::flush);
+        engine.post(() -> core.flush());
         if (car != null) car.stop();
         if (pleos != null) pleos.stop();
         if (voice != null) voice.shutdown();
@@ -146,7 +151,7 @@ public final class SafePulseController {
     }
 
     public void confirmRehearsalStep() {
-        engine.post(core::confirmRehearsalStepManually);
+        engine.post(() -> core.confirmRehearsalStepManually());
     }
 
     public void stopRehearsal() {
@@ -159,8 +164,13 @@ public final class SafePulseController {
             try {
                 Scenario s = Scenario.load(id);
                 if (!withWatch) s = s.withoutWearable();
-                core.cancel(SystemClock.elapsedRealtime());
-                core.stopRehearsal(SystemClock.elapsedRealtime());
+                long now = SystemClock.elapsedRealtime();
+                // 진행 중인 안내·리허설·기록을 정리한 뒤, 데모는 새 엔진으로 재생한다(단위 테스트 ScenarioSimulation과 같은 조건).
+                // 예전처럼 cancel()만 하면 '운전자 취소 후 10초 재개입 금지'가 걸려 데모 첫 10초 동안 개입하지 못했다.
+                core.cancel(now);
+                core.stopRehearsal(now);
+                core.flush();
+                core = newCore();
                 scenario = s;
                 scenarioStartedAt = SystemClock.elapsedRealtime();
                 scenarioIndex = 0;

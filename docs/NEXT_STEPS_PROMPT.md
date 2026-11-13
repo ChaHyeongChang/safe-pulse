@@ -29,7 +29,7 @@ core/ 는 순수 Java 판별·코칭 엔진(테스트 17개), app/ 은 Pleos Con
    - 가능하면 리플렉션을 SDK의 타입 있는 호출(공식 샘플의 Door Position 방식)로 바꾸되, safepulse.pleosSdk=false 빌드도 계속 되게 한다.
 4. 앱 홈 → 데모 시나리오 1~7, R을 하나씩 재생해 README "검증 결과" 표와 같은 동작인지 확인한다. 음성이 안 나오면 TTS 엔진·한국어 음성을 확인한다.
 5. scripts/vhal_parking_misapplication.sh 를 실행해 실시간 모드에서도 개입·코칭·정차 화면이 나오는지 확인한다. 주입 형식이 다르면 스크립트를 고친다.
-6. ./gradlew exportReleaseApk -Psafepulse.teamName=<팀명> 으로 apk/<팀명>_SafePulse_release.apk 를 만들고, 에뮬레이터에서 기존 앱을 지운 뒤 이 APK로 다시 설치해 실행 확인.
+6. ./gradlew exportReleaseApk -Psafepulse.teamName=MONDAI 으로 apk/MONDAI_SafePulse_release.apk 를 만들고, 에뮬레이터에서 기존 앱을 지운 뒤 이 APK로 다시 설치해 실행 확인.
 7. README의 "실행 방법·테스트 환경" 이 실제와 다른 부분을 고치고, 확인 결과(어떤 신호가 실제로 들어왔는지)를 README에 짧게 적는다.
 8. git 커밋(한국어 메시지). GitHub 원격 저장소 주소를 물어본 뒤 push. 마지막에 최종 커밋 해시를 알려 줘(접수 메일에 적어야 함).
 ```

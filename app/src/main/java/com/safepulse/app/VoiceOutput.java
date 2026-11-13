@@ -60,7 +60,10 @@ final class VoiceOutput implements TextToSpeech.OnInitListener {
     public void onInit(int status) {
         main.post(() -> {
             if (status != TextToSpeech.SUCCESS || tts == null) {
-                Log.w(TAG, "TTS init failed: " + status);
+                // Pleos Connect 에뮬레이터 2.1.0에는 Android TTS로 쓸 수 있는 엔진이 없다(유일한 엔진의 인텐트 필터에
+                // CATEGORY_DEFAULT가 없어 TextToSpeech가 찾지 못함). 이때는 res/raw/vo_*.ogg 녹음 파일만 재생된다.
+                Log.w(TAG, "TTS init failed: " + status
+                        + " (no usable TTS engine; add res/raw/vo_*.ogg recordings, see docs/VOICE_LINES.md)");
                 return;
             }
             int lang = tts.setLanguage(Locale.KOREAN);

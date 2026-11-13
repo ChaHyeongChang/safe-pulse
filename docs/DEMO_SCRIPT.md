@@ -5,9 +5,12 @@
 
 ## 준비
 
-1. Pleos Connect Emulator 2.1.0(API 34) AVD 실행 → 앱 설치·실행 → 권한 허용
-2. 설정 → 보호자 이름 입력(예: "딸 지은")
-3. 녹화: Android Studio 에뮬레이터의 화면 녹화, 또는 OBS로 에뮬레이터 창과 **PC 소리**를 함께 녹화
+1. **음성 녹음 파일 넣기(필수).** Pleos Connect 에뮬레이터 2.1.0에는 Android TTS로 쓸 수 있는 엔진이 없어,
+   녹음 파일이 없으면 화면 안내만 나오고 소리가 나지 않는다. [VOICE_LINES.md](VOICE_LINES.md)의 12개 문장을 녹음해
+   `app/src/main/res/raw/`에 넣고 `./gradlew exportReleaseApk` 로 APK를 다시 만든다.
+2. Pleos Connect Emulator 2.1.0(API 34) AVD 실행 → 앱 설치·실행 → 권한 허용("위치 정보"로 표시되는 차속 권한, 알림)
+3. 설정 → 보호자 이름 입력(예: "딸 지은")
+4. 녹화: Android Studio 에뮬레이터의 화면 녹화, 또는 OBS로 에뮬레이터 창과 **PC 소리**를 함께 녹화
    (`adb shell screenrecord` 는 소리가 녹음되지 않는다. 음성 코칭이 핵심이므로 OBS 권장)
 
 ## 장면

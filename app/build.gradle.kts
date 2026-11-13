@@ -60,6 +60,10 @@ android {
         buildConfig = true
     }
 
+    // Pleos Vehicle SDK 연결부(PleosVehicleBridge)는 SDK 사용 여부에 따라 소스 폴더를 고른다.
+    // true: src/pleos(SDK 타입으로 직접 호출) / false: src/noPleos(빈 구현, SDK 없이 빌드)
+    sourceSets.getByName("main").java.srcDir(if (usePleosSdk) "src/pleos/java" else "src/noPleos/java")
+
     lint {
         // 마감 직전 빌드가 lint 경고로 막히지 않게 한다. 경고는 리포트로 확인.
         abortOnError = false
