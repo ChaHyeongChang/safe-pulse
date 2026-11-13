@@ -18,7 +18,7 @@
 | 개발 환경 | Android Studio 2026.1.4, Gradle 8.10.2(래퍼 포함), AGP 8.8.2, compileSdk 35, minSdk 28, Java 17 소스 |
 | 빌드 JDK | JDK 17~21 (확인: JBR 21.0.11). JDK 25는 Gradle 8.10.2가 지원하지 않습니다. |
 | Pleos SDK | Vehicle SDK 2.3.2 (공식 샘플 `pleos-sample-vehicle-app`과 같은 버전) — Brake·DrivingMode 도메인 |
-| APK | `apk/MONDAI_SafePulse_release.apk` (약 8MB, 디버그 키 서명) |
+| APK | `apk/MONDAI_SafePulse_release.apk` (약 10MB, 음성 파일 포함, 디버그 키 서명) |
 
 ## 실행 방법
 
@@ -69,8 +69,8 @@ adb install -r apk/MONDAI_SafePulse_release.apk
   Windows에서는 Git Bash로 실행합니다(필요: adb, curl).
 - **주차 브레이크(`PARKING_BRAKE_ON`)는 Virtual Console에 항목이 없어 실시간으로 넣을 수 없습니다.**
   실시간 모드의 정차 확인은 "차속 0 + 기어 P"로 하고, 주차 브레이크 단계는 데모 시나리오 2·R로 보여 줍니다.
-- 음성: Pleos Connect 에뮬레이터 2.1.0에는 Android TTS로 쓸 수 있는 엔진이 없습니다. 소리를 내려면
-  [docs/VOICE_LINES.md](docs/VOICE_LINES.md)의 녹음 파일을 `app/src/main/res/raw/`에 넣고 다시 빌드합니다(없으면 화면 안내만 나옴).
+- 음성: Pleos Connect 에뮬레이터 2.1.0에는 Android TTS로 쓸 수 있는 엔진이 없어, 앱에 넣은 음성 파일 12개(`app/src/main/res/raw/vo_*.wav`)를 재생합니다.
+  지금 파일은 Windows 내장 한국어 TTS(Microsoft Heami)로 만들었습니다(`tools/gen_voice_windows_tts.ps1`). 팀원 녹음으로 바꾸는 방법은 [docs/VOICE_LINES.md](docs/VOICE_LINES.md).
 
 시연 영상 촬영 순서는 [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md)에 있습니다.
 
@@ -84,7 +84,7 @@ adb install -r apk/MONDAI_SafePulse_release.apk
 | 크루즈 상태 | Pleos SDK `DrivingMode.registerCruiseControlState` | ✅ `ENABLED`/`ACTIVATED` 수신. ACTIVATED 중 0.38g 가속은 감지하지 않음(데모 4와 같은 동작) |
 | 주차 브레이크 | AAOS `PARKING_BRAKE_ON` | ⚠️ 구독·현재값(해제) 수신. 값을 바꿀 수단이 없음 |
 | 워치 | `WearableInputReceiver`(adb broadcast) | ✅ `--watch` 실시간 시연에서 손목 경직으로 즉시 개입 |
-| 음성 | 녹음 파일 → Android TTS | ⚠️ TTS 엔진 없음. 녹음 파일 재생 경로(오디오 포커스·MediaPlayer)는 동작 확인 |
+| 음성 | 음성 파일(res/raw) → Android TTS | ✅ 음성 파일 12개 모두 재생 확인(Logcat `play clip vo_…`, MediaPlayer started). Android TTS 엔진은 없음 |
 
 - 실시간 모드(`vhal_parking_misapplication.sh`): 감시 → 주의 → **개입(가속 1.5초 지속)** → 브레이크 코칭 → 실제 브레이크 신호 + 감속 확인 → 정차 → P → 안부 확인까지 7회 실행 모두 같은 흐름(워치 없이 5회, `--watch` 2회).
 - AAOS `CRUISE_CONTROL_STATE`는 `READ_ADAS_STATES`(signature|privileged) 권한이 필요하고 이 에뮬레이터 VHAL에도 없어, Pleos SDK로 받습니다.
@@ -136,7 +136,7 @@ adb install -r apk/MONDAI_SafePulse_release.apk
 | 주차 브레이크 | AAOS `PARKING_BRAKE_ON` | 읽기 |
 | 크루즈 상태 | **Pleos Vehicle SDK – DrivingMode** (`registerCruiseControlState`, ACTIVATED일 때 크루즈 가속으로 봄). AAOS `CRUISE_CONTROL_STATE`는 지원 플랫폼에서만 보조로 구독 | 읽기 |
 | 브레이크 페달 | **Pleos Vehicle SDK – Brake** (`registerBrakePedalStatus`, `getCurrentBrakePedalStatus`) | 읽기 |
-| 음성 안내 | 녹음 음성(기본) → Android TTS 대체 (Gleo TTS ON_DEVICE는 확장 예정). 에뮬레이터 2.1.0은 TTS 엔진이 없어 녹음 파일 필요 | — |
+| 음성 안내 | 앱에 넣은 음성 파일(기본) → Android TTS 대체 (Gleo TTS ON_DEVICE는 확장 예정). 에뮬레이터 2.1.0은 TTS 엔진이 없어 음성 파일로 재생 | — |
 | 미디어 정지 | AAOS Audio Focus (`AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE`) | — |
 | 운전자 주의 분산 | `distractionOptimized` 선언은 메인 화면만. 리허설·기록·설정은 정차 중에만 열림 | — |
 
@@ -176,11 +176,13 @@ core/                 판별·코칭 엔진(순수 Java, Android 의존 없음)
   EventRecorder       이벤트 기록(JSON)
   SafePulseCore       위 넷을 묶은 진입점(앱·테스트가 같은 코드를 씀)
   resources/scenarios 데모·테스트 시나리오 CSV (tools/gen_scenarios.py로 생성)
+tools/
+  gen_voice_windows_tts.ps1  Prompt.java 문장으로 음성 WAV 생성(Windows 한국어 TTS)
 app/                  Pleos Connect 앱
   CarSignalSource     AAOS CarPropertyManager 구독
   PleosVehicleBridge  Pleos Vehicle SDK(Brake·DrivingMode) 연결 — src/pleos(SDK), src/noPleos(빈 구현)
   SafePulseController 신호 → 엔진 → 음성·화면·기록
-  VoiceOutput         녹음 음성 → TTS, 오디오 포커스
+  VoiceOutput         음성 파일(res/raw/vo_*.wav) → TTS, 오디오 포커스
   MainActivity        홈·긴급 코칭·정차 후 화면
 scripts/
   vconsole.sh                    Virtual Console로 차속·기어·브레이크 넣기

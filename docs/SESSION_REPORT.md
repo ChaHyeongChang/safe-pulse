@@ -13,7 +13,7 @@
 | 실시간 신호(차속·기어·브레이크 페달·크루즈) | ✅ 홈 화면 반영. 주차 브레이크만 주입 수단 없음 |
 | 데모 1~7, 비교, R | ✅ README 표와 같은 동작(버그 하나 고친 뒤) |
 | 실시간 모드 시연 스크립트 | ✅ 개입 → 코칭 → 정차 → 안부 확인, 7회 실행 모두 같은 흐름 |
-| 음성 | ⚠️ 에뮬레이터에 쓸 수 있는 TTS 엔진 없음 → 녹음 파일 필요(사람 작업) |
+| 음성 | ✅ (후속 작업) Windows 한국어 TTS로 만든 WAV 12개를 넣어 12개 모두 재생 확인. 귀로 듣는 확인은 남음 |
 | GitHub push | ❌ 인증 실패. 커밋까지만 함 |
 
 ## 단계별로 한 일
@@ -63,7 +63,8 @@
 - **음성**: `TTS init failed: -1`. 원인: 에뮬레이터의 유일한 TTS 엔진(`ai.pleos.playground.caas` SpeechService)의 인텐트 필터에
   CATEGORY_DEFAULT가 없어 TextToSpeech(MATCH_DEFAULT_ONLY 조회)가 찾지 못함(`query-services -c DEFAULT` → No services found).
   녹음 파일 경로는 시험 음(vo_brake.wav, 확인 뒤 삭제)으로 오디오 포커스·MediaPlayer 재생을 확인했다.
-  docs/VOICE_LINES.md가 상용 TTS 라이선스를 경고하고 있어 PC TTS로 음성을 만들어 넣지는 않았다.
+  docs/VOICE_LINES.md가 상용 TTS 라이선스를 경고하고 있어 이 세션에서는 PC TTS로 음성을 만들지 않았다
+  → 이후 사용자 요청으로 만들었다(아래 "후속 작업: 음성 파일").
 
 ### 5. 실시간 모드
 - `scripts/vhal_parking_misapplication.sh` 를 Virtual Console 방식으로 다시 썼다. 처음에는 개입하지 않았는데,
@@ -81,9 +82,22 @@
 - 문서: README, apk/README.md, docs/DEMO_SCRIPT.md, docs/VOICE_LINES.md, docs/NEXT_STEPS_PROMPT.md(팀명), docs/TODO_MANUAL.md(새로), 이 보고서
 - 바꾸지 않은 것: core/ 판별 로직과 테스트, AGP·Gradle 버전, gradle.properties, gradle-wrapper.properties, 매니페스트 권한(CONTROL_ 없음)
 
+## 후속 작업: 음성 파일 (2026-11-14, 사용자 요청)
+
+- System.Speech에서 한국어 음성 **Microsoft Heami Desktop (ko-KR)** 을 찾았다(그 밖에는 영어 Zira뿐).
+- `tools/gen_voice_windows_tts.ps1` 추가: `Prompt.java` 의 12개 문장을 읽어 `app/src/main/res/raw/vo_{key}.wav`
+  (44.1kHz·16bit·모노)로 만든다. 엔진이 넣는 앞뒤 무음을 잘라 내고 앞 0.12초·뒤 0.2초 무음을 다시 붙인다(측정: 앞 약 0.15초, 뒤 약 0.23초).
+- 처음 기본 속도로 만들었더니 `brake` 2.76초, `stopped` 4.5초, `rehearsal_start` 5.3초였다. 코칭 안내는 앞 안내를 끊고 나오므로
+  `promptRepeatMs`(2초)·`stoppedToSafeMs`(2.5초)·`rehearsalIntroMs`(3초)보다 길면 끝이 잘리거나 리허설 측정이 늦어진다.
+  → 구절마다 합성해 짧은 쉼으로 잇고, 상한을 넘는 문장만 말 속도를 올렸다(brake +2, epb +1, stopped +4, rehearsal_start +5).
+- `VoiceOutput` 에 `play clip vo_…` 로그 추가. `exportReleaseApk` 로 다시 만든 APK(약 10MB, WAV는 압축 없이 저장, 리소스 이름 `raw/vo_*` 12개 확인)를
+  설치하고 데모 1·5·6·R과 실시간 리허설 중단을 재생해 **12개 모두** 재생되는 것을 확인했다(`dumpsys audio` 에서 MediaPlayer `state:started`).
+  데모 1에서 `stopped` 는 다음 안내 전까지 2.59초를 받아 끝까지 재생된다.
+- 데모 판별 결과는 그대로다(데모 1: 2.5초 개입, R: 3동작 4.1초). `:core:test` 17개 통과.
+
 ## 남은 일
 
-[TODO_MANUAL.md](TODO_MANUAL.md) 참고. 핵심: ① GitHub push ② 음성 녹음 12개 → APK 재생성 ③ 시연 영상 촬영.
+[TODO_MANUAL.md](TODO_MANUAL.md) 참고. 핵심: ① GitHub push(필요하면) ② 음성 들어 보기·라이선스 확인 ③ 시연 영상 촬영.
 
 ## 커밋
 
@@ -91,6 +105,7 @@
 | --- | --- |
 | `6c627a4da2425f348df51b0df77a33b83b0f08cc` | 첫 커밋(빌드·에뮬레이터 1차 확인) |
 | `cbf8bdad2fbb1e262ba7a3fac07bd6fcf6077d84` | 코드·APK·문서 최종(데모 버그 수정, SDK 타입 호출, 실시간 주입) |
-| 이 보고서를 추가한 커밋 | 최종 HEAD — `git log -1 --format=%H` 로 확인(보고서는 자기 해시를 담을 수 없음) |
+| `abf89838c52e96d32195f2c9f12aa3d35a9f3137` | 작업 보고서 추가 |
+| 음성 파일 커밋 | 최종 HEAD — `git log -1 --format=%H` 로 확인(보고서는 자기 해시를 담을 수 없음) |
 
-push는 되지 않았다. 돌아와서 `git push -u origin main` 후, 접수 메일에는 push된 HEAD 해시를 적는다.
+접수 메일에는 push된 HEAD 해시를 적는다.

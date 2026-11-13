@@ -105,7 +105,10 @@ final class VoiceOutput implements TextToSpeech.OnInitListener {
         audioManager.requestAudioFocus(focusRequest);
         speaking = true;
         int resId = context.getResources().getIdentifier("vo_" + prompt.key, "raw", context.getPackageName());
-        if (resId != 0 && playClip(resId)) return;
+        if (resId != 0 && playClip(resId)) {
+            Log.i(TAG, "play clip vo_" + prompt.key);
+            return;
+        }
         if (ttsReady && tts != null) {
             tts.speak(prompt.text, TextToSpeech.QUEUE_FLUSH, null, prompt.key + System.nanoTime());
         } else {

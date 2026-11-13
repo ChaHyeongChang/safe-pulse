@@ -13,13 +13,16 @@
 - push 후 GitHub → Actions에서 `core-tests` 가 통과하는지 확인한다.
 - 접수 메일에 적을 커밋 해시: `git log -1 --format=%H`
 
-### 1-2. 음성 녹음 12개 (없으면 시연 영상에 소리가 없다)
-- Pleos Connect 에뮬레이터 2.1.0에는 Android TTS로 쓸 수 있는 엔진이 없다(앱 Logcat: `TTS init failed: -1`).
-  유일한 엔진 `ai.pleos.playground.caas` 는 인텐트 필터에 CATEGORY_DEFAULT가 없어 TextToSpeech가 찾지 못한다.
-- [VOICE_LINES.md](VOICE_LINES.md)의 12개 문장을 녹음해 `app/src/main/res/raw/vo_*.ogg`(또는 .mp3/.wav)로 넣는다.
-- `./gradlew exportReleaseApk` → `apk/MONDAI_SafePulse_release.apk` 갱신 → 커밋·push.
-- 확인: 데모 1 재생 → "발 떼고, 두 발로 브레이크!"가 PC 스피커로 들리는지. Logcat `SafePulse/Voice` 에 `no voice output` 이 없어야 한다.
-  (녹음 파일 재생 경로 자체는 시험 음으로 확인했다: 오디오 포커스 획득·MediaPlayer 재생 정상.)
+### 1-2. 음성 — 파일은 넣었고, 귀로 확인할 일이 남음
+- 완료: Windows 내장 한국어 TTS(Microsoft Heami)로 12개 WAV를 만들어 `app/src/main/res/raw/` 에 넣고 APK를 다시 만들었다
+  (`tools/gen_voice_windows_tts.ps1`). 에뮬레이터에서 12개 모두 재생되는 것을 Logcat으로 확인했다.
+  (에뮬레이터에는 Android TTS 엔진이 없어 이 파일이 유일한 소리다: `TTS init failed: -1` 은 정상 로그.)
+- [ ] **들어 보기:** 데모 1·2·R을 재생해 PC 스피커로 확인. 특히
+  - "기어 N!", "기어 P" 의 영문자 발음
+  - 시간에 맞추려고 빠르게 만든 문장: `stopped`(속도 +4), `rehearsal_start`(+5), `brake`(+2), `epb`(+1)
+  - 데모 R은 음성이 화면보다 최대 약 1.8초 늦게 나온다(시나리오 동작 간격이 음성보다 짧음. 실제 리허설에서는 안내를 듣고 움직이므로 생기지 않음)
+- [ ] **라이선스:** Windows TTS 음성 출력물을 공모전 영상·APK에 써도 되는지 대회 규정·Microsoft 약관 확인.
+  걱정되면 팀원 녹음으로 바꾼다([VOICE_LINES.md](VOICE_LINES.md)의 길이 상한을 지키고, 같은 이름의 .wav는 지운다).
 
 ### 1-3. 시연 영상 촬영
 - [DEMO_SCRIPT.md](DEMO_SCRIPT.md) 순서대로. OBS로 에뮬레이터 창 + PC 소리 녹화.
