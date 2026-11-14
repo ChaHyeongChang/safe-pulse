@@ -22,6 +22,8 @@
 
 ## 실행 방법
 
+팀원용 상세 설정 가이드: [docs/TEAM_SETUP.md](docs/TEAM_SETUP.md)
+
 ### 1. 에뮬레이터 준비
 1. Android Studio → SDK Manager → SDK Update Sites에 Pleos Connect System Image를 추가합니다.
    - Windows/Linux: `https://nexus-playground.pleos.ai/repository/raw-releases/connect-avd/2.x/crp-sys-img.xml`
