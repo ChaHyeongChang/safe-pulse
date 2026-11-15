@@ -38,7 +38,7 @@
 
 ### 8. git
 - `git init -b main`, `.gitattributes`(셸 스크립트 LF) 추가, 스크립트 실행 권한 표시, 첫 커밋 `6c627a4`.
-- `origin` = https://github.com/ChaHyeongChang/safe-pulse.git 추가. push는 `Invalid username or token` 으로 실패 → 커밋까지만.
+- `origin` = https://github.com/mondai-safepulse/safe-pulse.git 추가. push는 `Invalid username or token` 으로 실패 → 커밋까지만.
 - keystore.properties·*.jks 는 .gitignore에 걸리는 것을 확인했고 커밋하지 않았다.
 
 ### 7. 문서

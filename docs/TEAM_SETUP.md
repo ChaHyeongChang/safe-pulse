@@ -2,7 +2,7 @@
 
 이 문서를 따라 하면 자기 PC에서 Pleos Connect 에뮬레이터를 띄우고 세이프 펄스 앱을 실행할 수 있다.
 걸리는 시간은 1~2시간이고, 대부분은 다운로드 시간이다(에뮬레이터 이미지 3.8GB).
-형창의 노트북에서 실제로 겪은 문제와 해결법을 함께 적었다.
+팀장의 노트북에서 실제로 겪은 문제와 해결법을 함께 적었다.
 
 ## 0. 준비물
 
@@ -21,7 +21,7 @@
 1. 이메일로 온 GitHub 초대를 **수락**한다.
 2. PowerShell에서 한글이 없는 경로로 받는다.
    ```powershell
-   git clone https://github.com/ChaHyeongChang/safe-pulse.git C:\dev\safe-pulse
+   git clone https://github.com/mondai-safepulse/safe-pulse.git C:\dev\safe-pulse
    ```
    처음이면 GitHub 로그인 창이 뜬다 → **Sign in with your browser** → 로그인 → Authorize.
 
@@ -111,6 +111,6 @@ adb install -r apk\MONDAI_SafePulse_release.apk
 
 ## 9. 주의
 
-- `main` 브랜치에 바로 push하기 전에 형창과 이야기한다. 마감(11/15) 직전에는 **최종 커밋 해시**가 접수 메일에 들어간다.
+- `main` 브랜치에 바로 push하기 전에 팀장과 이야기한다. 마감(11/15) 직전에는 **최종 커밋 해시**가 접수 메일에 들어간다.
 - `keystore.properties`, `*.jks` 같은 서명 키 파일은 절대 커밋하지 않는다.
 - 차량 제어 API는 쓰지 않는다(읽기 전용 + 안내만).
